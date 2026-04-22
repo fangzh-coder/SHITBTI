@@ -244,6 +244,75 @@ button {
   font-size: 15px;
 }
 
+.result-card-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 14px;
+}
+
+.profile-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbfa 100%);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+}
+
+.roast-card {
+  background: radial-gradient(circle at top right, rgba(15, 118, 110, 0.12), transparent 35%), #ffffff;
+  border: 1px solid rgba(15, 118, 110, 0.12);
+}
+
+.fact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.fact-item {
+  border: 1px solid rgba(208, 213, 221, 0.8);
+  border-radius: 14px;
+  background: #fff;
+  padding: 12px;
+}
+
+.fact-item--full {
+  grid-column: 1 / -1;
+}
+
+.fact-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.fact-value {
+  display: block;
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.roast-text {
+  margin: 0;
+  color: var(--text);
+  font-size: 18px;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+.advice-chip {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--accent-2);
+  font-size: 14px;
+  line-height: 1.7;
+  font-weight: 600;
+}
+
 .variant-row {
   display: flex;
   gap: 8px;
@@ -271,7 +340,9 @@ button {
   border: 1px dashed var(--line);
   border-radius: 10px;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  background: #fff;
 }
 
 ul { margin: 0; padding-left: 1.2em; }
@@ -309,7 +380,13 @@ ul { margin: 0; padding-left: 1.2em; }
     padding-right: 18px;
   }
 
-  .grid {
+  .grid,
+  .result-card-grid,
+  .fact-grid {
     grid-template-columns: 1fr;
+  }
+
+  .fact-item--full {
+    grid-column: auto;
   }
 }
