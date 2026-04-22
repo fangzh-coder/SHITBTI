@@ -53,11 +53,42 @@
 
     <section id="screen-result" class="card hidden">
       <div class="result-head" id="result-card-source">
-        <div class="code" id="result-code"></div>
+        <div class="result-topline">
+          <div class="code" id="result-code"></div>
+          <div class="result-stamp" id="result-stamp">研究院已鉴定</div>
+        </div>
         <h2 class="result-title" id="result-name"></h2>
         <p class="result-summary" id="result-summary"></p>
         <div class="pill-row" id="traits"></div>
+
+        <div class="result-card-grid">
+          <div class="result-card-item">
+            <span class="result-card-label">人格代码</span>
+            <strong class="result-card-value" id="card-code"></strong>
+          </div>
+          <div class="result-card-item">
+            <span class="result-card-label">节律倾向</span>
+            <strong class="result-card-value" id="card-trait-s"></strong>
+          </div>
+          <div class="result-card-item">
+            <span class="result-card-label">场景偏好</span>
+            <strong class="result-card-value" id="card-trait-h"></strong>
+          </div>
+          <div class="result-card-item">
+            <span class="result-card-label">仪式程度</span>
+            <strong class="result-card-value" id="card-trait-i"></strong>
+          </div>
+          <div class="result-card-item">
+            <span class="result-card-label">肠道状态</span>
+            <strong class="result-card-value" id="card-trait-t"></strong>
+          </div>
+          <div class="result-card-item result-card-item--wide">
+            <span class="result-card-label">研究院结论</span>
+            <strong class="result-card-value result-card-value--quote" id="card-tagline"></strong>
+          </div>
+        </div>
       </div>
+
       <div class="result-body">
         <div class="block">
           <h3>人格解析</h3>
