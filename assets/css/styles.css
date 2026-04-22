@@ -114,6 +114,8 @@ button {
   font-size: 15px;
   font-weight: 600;
   padding: 14px 18px;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .btn-primary {
@@ -242,6 +244,36 @@ button {
   font-size: 15px;
 }
 
+.variant-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.variant-btn {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.variant-btn.is-active {
+  background: rgba(15, 118, 110, 0.1);
+  color: var(--accent-2);
+  border-color: #86cdc6;
+}
+
+.share-preview {
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
 ul { margin: 0; padding-left: 1.2em; }
 
 .hidden { display: none !important; }
@@ -281,5 +313,3 @@ ul { margin: 0; padding-left: 1.2em; }
     grid-template-columns: 1fr;
   }
 }
-
-.btn-primary, .btn-secondary { text-decoration: none; display: inline-block; }

@@ -1,7 +1,15 @@
 (function initApp() {
   const questions = window.SHITBTI_QUESTIONS;
   const results = window.SHITBTI_RESULTS;
-  const { resetScores, buildCode, getTraits, buildShareText, copyText } = window.SHITBTI_UTILS;
+  const {
+    resetScores,
+    buildCode,
+    getTraits,
+    buildShareText,
+    copyText,
+    generateShareImage,
+    downloadDataUrl
+  } = window.SHITBTI_UTILS;
 
   const screens = {
     home: document.getElementById('screen-home'),
@@ -26,8 +34,12 @@
     resultRisks: document.getElementById('result-risks'),
     resultTags: document.getElementById('result-tags'),
     traits: document.getElementById('traits'),
+    sharePreview: document.getElementById('share-preview'),
     restartBtn: document.getElementById('restart-btn'),
-    copyBtn: document.getElementById('copy-btn')
+    copyBtn: document.getElementById('copy-btn'),
+    shareImageBtn: document.getElementById('share-image-btn'),
+    variantABtn: document.getElementById('variant-a-btn'),
+    variantBBtn: document.getElementById('variant-b-btn')
   };
 
   const scanTexts = [
@@ -41,11 +53,24 @@
   let currentQuestionIndex = 0;
   let scores = resetScores();
   let currentResultText = '';
+  let currentResultCode = '';
+  let currentResultData = null;
+  let currentCopyVariant = 'A';
 
   function showScreen(name) {
     Object.values(screens).forEach((screen) => screen.classList.add('hidden'));
     screens[name].classList.remove('hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateSharePreview() {
+    if (!currentResultData || !currentResultCode) return;
+
+    currentResultText = buildShareText(currentResultCode, currentResultData, currentCopyVariant);
+    el.sharePreview.textContent = currentResultText;
+
+    el.variantABtn.classList.toggle('is-active', currentCopyVariant === 'A');
+    el.variantBBtn.classList.toggle('is-active', currentCopyVariant === 'B');
   }
 
   function renderQuestion() {
@@ -88,6 +113,10 @@
 
     showScreen('result');
 
+    currentResultCode = resultCode;
+    currentResultData = resultData;
+    currentCopyVariant = 'A';
+
     el.resultCode.textContent = resultCode;
     el.resultName.textContent = resultData.name;
     el.resultSummary.textContent = resultData.summary;
@@ -110,15 +139,19 @@
       el.traits.appendChild(pill);
     });
 
-    currentResultText = buildShareText(resultCode, resultData);
+    updateSharePreview();
   }
 
   function startQuiz() {
     currentQuestionIndex = 0;
     scores = resetScores();
     currentResultText = '';
+    currentResultCode = '';
+    currentResultData = null;
+    currentCopyVariant = 'A';
     el.status.textContent = '';
     el.copyBtn.textContent = '复制结果文案';
+    el.shareImageBtn.textContent = '生成分享图';
     showScreen('quiz');
     renderQuestion();
   }
@@ -137,13 +170,39 @@
     }, 1400);
   }
 
+  function handleGenerateShareImage() {
+    if (!currentResultData || !currentResultCode) return;
+
+    const dataUrl = generateShareImage({
+      code: currentResultCode,
+      name: currentResultData.name,
+      summary: currentResultData.summary,
+      shareText: currentResultText,
+      traits: getTraits(currentResultCode)
+    });
+
+    downloadDataUrl(dataUrl, `shitbti-${currentResultCode}.png`);
+    el.shareImageBtn.textContent = '已下载分享图';
+    setTimeout(() => {
+      el.shareImageBtn.textContent = '生成分享图';
+    }, 1500);
+  }
+
   function previewResult() {
     scores = { S: 2, s: 0, H: 1, h: 0, I: 2, i: 0, T: 2, t: 0 };
     renderResult();
+  }
+
+  function switchVariant(variant) {
+    currentCopyVariant = variant;
+    updateSharePreview();
   }
 
   el.startBtn.addEventListener('click', startQuiz);
   el.previewResultsBtn.addEventListener('click', previewResult);
   el.restartBtn.addEventListener('click', startQuiz);
   el.copyBtn.addEventListener('click', handleCopy);
+  el.shareImageBtn.addEventListener('click', handleGenerateShareImage);
+  el.variantABtn.addEventListener('click', () => switchVariant('A'));
+  el.variantBBtn.addEventListener('click', () => switchVariant('B'));
 })();

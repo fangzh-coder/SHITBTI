@@ -53,7 +53,7 @@
     </section>
 
     <section id="screen-result" class="card hidden">
-      <div class="result-head">
+      <div class="result-head" id="result-card-source">
         <div class="code" id="result-code"></div>
         <h2 class="result-title" id="result-name"></h2>
         <p class="result-summary" id="result-summary"></p>
@@ -76,11 +76,22 @@
           <h3>你的行为标签</h3>
           <p id="result-tags"></p>
         </div>
+
+        <div class="block">
+          <h3>分享文案版本（A/B）</h3>
+          <div class="variant-row" role="group" aria-label="分享文案版本切换">
+            <button class="variant-btn is-active" id="variant-a-btn" data-variant="A">版本 A（直接风）</button>
+            <button class="variant-btn" id="variant-b-btn" data-variant="B">版本 B（玩梗风）</button>
+          </div>
+          <p class="share-preview" id="share-preview"></p>
+        </div>
+
         <div class="footer-actions">
           <button class="btn-primary" id="restart-btn">再测一次</button>
           <button class="btn-secondary" id="copy-btn">复制结果文案</button>
+          <button class="btn-secondary" id="share-image-btn">生成分享图</button>
         </div>
-        <p class="muted-note">预留能力：后续可在这里加入“生成分享图”按钮和 Canvas/Puppeteer 导出逻辑（TODO）。</p>
+        <p class="muted-note">本项目不收集用户隐私数据；分享图仅在你的浏览器本地生成并下载。</p>
       </div>
     </section>
   </main>
