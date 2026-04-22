@@ -1,0 +1,149 @@
+(function initApp() {
+  const questions = window.SHITBTI_QUESTIONS;
+  const results = window.SHITBTI_RESULTS;
+  const { resetScores, buildCode, getTraits, buildShareText, copyText } = window.SHITBTI_UTILS;
+
+  const screens = {
+    home: document.getElementById('screen-home'),
+    quiz: document.getElementById('screen-quiz'),
+    result: document.getElementById('screen-result')
+  };
+
+  const el = {
+    startBtn: document.getElementById('start-btn'),
+    previewResultsBtn: document.getElementById('preview-results-btn'),
+    progressLabel: document.getElementById('progress-label'),
+    progressBar: document.getElementById('progress-bar'),
+    scanText: document.getElementById('scan-text'),
+    questionTitle: document.getElementById('question-title'),
+    options: document.getElementById('options'),
+    status: document.getElementById('status'),
+    resultCode: document.getElementById('result-code'),
+    resultName: document.getElementById('result-name'),
+    resultSummary: document.getElementById('result-summary'),
+    resultDescription: document.getElementById('result-description'),
+    resultFriend: document.getElementById('result-friend'),
+    resultRisks: document.getElementById('result-risks'),
+    resultTags: document.getElementById('result-tags'),
+    traits: document.getElementById('traits'),
+    restartBtn: document.getElementById('restart-btn'),
+    copyBtn: document.getElementById('copy-btn')
+  };
+
+  const scanTexts = [
+    '肠道扫描启动中……',
+    '便意信号正在建模……',
+    '如厕人格轮廓逐渐清晰……',
+    '正在比对全球排便样本……',
+    '请勿在分析完成前擅自离开工位……'
+  ];
+
+  let currentQuestionIndex = 0;
+  let scores = resetScores();
+  let currentResultText = '';
+
+  function showScreen(name) {
+    Object.values(screens).forEach((screen) => screen.classList.add('hidden'));
+    screens[name].classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderQuestion() {
+    const question = questions[currentQuestionIndex];
+    const progressPercent = ((currentQuestionIndex + 1) / questions.length) * 100;
+
+    el.progressLabel.textContent = `第 ${currentQuestionIndex + 1} / ${questions.length} 题`;
+    el.progressBar.style.width = `${progressPercent}%`;
+    el.scanText.textContent = scanTexts[Math.min(Math.floor(currentQuestionIndex / 3), scanTexts.length - 1)];
+    el.questionTitle.textContent = question.title;
+    el.options.innerHTML = '';
+
+    question.options.forEach((option) => {
+      const button = document.createElement('button');
+      button.className = 'option';
+      button.textContent = option.text;
+
+      button.addEventListener('click', () => {
+        Object.entries(option.score).forEach(([axisKey, axisScore]) => {
+          scores[axisKey] += axisScore;
+        });
+
+        currentQuestionIndex += 1;
+
+        if (currentQuestionIndex < questions.length) {
+          renderQuestion();
+          return;
+        }
+
+        renderResult();
+      });
+
+      el.options.appendChild(button);
+    });
+  }
+
+  function renderResult() {
+    const resultCode = buildCode(scores);
+    const resultData = results[resultCode] || results.sHit;
+
+    showScreen('result');
+
+    el.resultCode.textContent = resultCode;
+    el.resultName.textContent = resultData.name;
+    el.resultSummary.textContent = resultData.summary;
+    el.resultDescription.textContent = resultData.description;
+    el.resultFriend.textContent = resultData.friend;
+    el.resultTags.textContent = resultData.tags;
+
+    el.resultRisks.innerHTML = '';
+    resultData.risks.forEach((risk) => {
+      const item = document.createElement('li');
+      item.textContent = risk;
+      el.resultRisks.appendChild(item);
+    });
+
+    el.traits.innerHTML = '';
+    getTraits(resultCode).forEach((trait) => {
+      const pill = document.createElement('span');
+      pill.className = 'pill';
+      pill.textContent = trait;
+      el.traits.appendChild(pill);
+    });
+
+    currentResultText = buildShareText(resultCode, resultData);
+  }
+
+  function startQuiz() {
+    currentQuestionIndex = 0;
+    scores = resetScores();
+    currentResultText = '';
+    el.status.textContent = '';
+    el.copyBtn.textContent = '复制结果文案';
+    showScreen('quiz');
+    renderQuestion();
+  }
+
+  async function handleCopy() {
+    const copied = await copyText(currentResultText);
+
+    if (!copied) {
+      alert('复制失败了，你可以手动复制结果页内容。');
+      return;
+    }
+
+    el.copyBtn.textContent = '已复制';
+    setTimeout(() => {
+      el.copyBtn.textContent = '复制结果文案';
+    }, 1400);
+  }
+
+  function previewResult() {
+    scores = { S: 2, s: 0, H: 1, h: 0, I: 2, i: 0, T: 2, t: 0 };
+    renderResult();
+  }
+
+  el.startBtn.addEventListener('click', startQuiz);
+  el.previewResultsBtn.addEventListener('click', previewResult);
+  el.restartBtn.addEventListener('click', startQuiz);
+  el.copyBtn.addEventListener('click', handleCopy);
+})();

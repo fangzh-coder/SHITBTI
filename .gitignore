@@ -1,0 +1,15 @@
+# macOS / Windows
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
