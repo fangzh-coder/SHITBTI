@@ -19,7 +19,6 @@
 
   const el = {
     startBtn: document.getElementById('start-btn'),
-    previewResultsBtn: document.getElementById('preview-results-btn'),
     progressLabel: document.getElementById('progress-label'),
     progressBar: document.getElementById('progress-bar'),
     scanText: document.getElementById('scan-text'),
@@ -171,26 +170,29 @@
   }
 
   function handleGenerateShareImage() {
-    if (!currentResultData || !currentResultCode) return;
+    if (!currentResultData || !currentResultCode) {
+      alert('请先完成测试，再生成分享图。');
+      return;
+    }
 
-    const dataUrl = generateShareImage({
-      code: currentResultCode,
-      name: currentResultData.name,
-      summary: currentResultData.summary,
-      shareText: currentResultText,
-      traits: getTraits(currentResultCode)
-    });
+    try {
+      const dataUrl = generateShareImage({
+        code: currentResultCode,
+        name: currentResultData.name,
+        summary: currentResultData.summary,
+        shareText: currentResultText,
+        traits: getTraits(currentResultCode)
+      });
 
-    downloadDataUrl(dataUrl, `shitbti-${currentResultCode}.png`);
-    el.shareImageBtn.textContent = '已下载分享图';
-    setTimeout(() => {
-      el.shareImageBtn.textContent = '生成分享图';
-    }, 1500);
-  }
-
-  function previewResult() {
-    scores = { S: 2, s: 0, H: 1, h: 0, I: 2, i: 0, T: 2, t: 0 };
-    renderResult();
+      downloadDataUrl(dataUrl, `shitbti-${currentResultCode}.png`);
+      el.shareImageBtn.textContent = '已下载分享图';
+      setTimeout(() => {
+        el.shareImageBtn.textContent = '生成分享图';
+      }, 1500);
+    } catch (error) {
+      console.error('generate share image failed', error);
+      alert('生成分享图失败了。你可以先复制结果文案；我已经把静默失败改掉了。');
+    }
   }
 
   function switchVariant(variant) {
@@ -199,7 +201,6 @@
   }
 
   el.startBtn.addEventListener('click', startQuiz);
-  el.previewResultsBtn.addEventListener('click', previewResult);
   el.restartBtn.addEventListener('click', startQuiz);
   el.copyBtn.addEventListener('click', handleCopy);
   el.shareImageBtn.addEventListener('click', handleGenerateShareImage);

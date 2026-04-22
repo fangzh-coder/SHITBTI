@@ -23,8 +23,22 @@ window.SHITBTI_UTILS = {
 
   buildShareText(code, resultData, variant = 'A') {
     const texts = {
-      A: `我测出来的 SHITBTI 拉屎人格是：${code}｜${resultData.name}。${resultData.summary} 你也来测测。`,
-      B: `刚做完 SHITBTI，我是 ${code}（${resultData.name}）。研究院判定：${resultData.summary} 快来看看你是哪一型。`
+      A: [
+        `【SHITBTI 结果播报】`,
+        `我的类型是 ${code}｜${resultData.name}。`,
+        resultData.summary,
+        `一句话来说：${resultData.description}`,
+        `朋友视角补刀：${resultData.friend}`,
+        '你也来测测，看看到底是谁在厕所里活成了另一个人格。'
+      ].join('\n'),
+      B: [
+        `国际排便行为研究院刚刚向我下发了正式鉴定书。`,
+        `经 12 道题交叉审查、肠道行为建模与如厕现场模拟，我被认定为：${code}｜${resultData.name}。`,
+        `研究院结论：${resultData.summary}`,
+        `附加观察：${resultData.tags}。`,
+        `民间证词：${resultData.friend}`,
+        '如果你也怀疑自己只是普通上厕所，那就来做 SHITBTI。很多人测完才发现，自己根本不是在拉屎，而是在执行一套高度个人化的人格流程。'
+      ].join('\n\n')
     };
 
     return texts[variant] || texts.A;
@@ -67,12 +81,38 @@ window.SHITBTI_UTILS = {
     return lineCount;
   },
 
+  drawRoundedRect(ctx, x, y, width, height, radius) {
+    const r = Math.min(radius, width / 2, height / 2);
+
+    ctx.beginPath();
+
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(x, y, width, height, r);
+      return;
+    }
+
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + width - r, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+    ctx.lineTo(x + width, y + height - r);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+    ctx.lineTo(x + r, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  },
+
   generateShareImage(resultPayload) {
     const canvas = document.createElement('canvas');
     canvas.width = 1080;
     canvas.height = 1350;
 
     const ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+      throw new Error('Canvas 2D context is unavailable.');
+    }
 
     // Background
     ctx.fillStyle = '#f8fafc';
@@ -82,8 +122,7 @@ window.SHITBTI_UTILS = {
     ctx.fillStyle = '#ffffff';
     ctx.strokeStyle = '#d0d5dd';
     ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(70, 70, 940, 1210, 28);
+    this.drawRoundedRect(ctx, 70, 70, 940, 1210, 28);
     ctx.fill();
     ctx.stroke();
 
@@ -116,8 +155,7 @@ window.SHITBTI_UTILS = {
       const y = tagsTop + Math.floor(index / 2) * 70;
 
       ctx.fillStyle = '#e8f4f2';
-      ctx.beginPath();
-      ctx.roundRect(x, y, 390, 48, 24);
+      this.drawRoundedRect(ctx, x, y, 390, 48, 24);
       ctx.fill();
 
       ctx.fillStyle = '#0b5f58';
