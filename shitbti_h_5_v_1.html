@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHITBTI® 拉屎人格测试</title>
+  <style>
+    :root {
+      --bg: #f5f7f8;
+      --card: #ffffff;
+      --text: #1d2939;
+      --muted: #667085;
+      --line: #d0d5dd;
+      --accent: #0f766e;
+      --accent-2: #0b5f58;
+      --danger: #7a271a;
+      --shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #f8fafc 0%, #eef2f6 100%);
+      color: var(--text);
+    }
+    .wrap {
+      width: min(760px, calc(100vw - 24px));
+      margin: 0 auto;
+      padding: 24px 0 60px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(16, 24, 40, 0.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .hero {
+      padding: 28px;
+      background: radial-gradient(circle at top right, rgba(15,118,110,0.14), transparent 28%), #fff;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(15,118,110,0.08);
+      color: var(--accent-2);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(28px, 6vw, 42px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+    .sub {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+      max-width: 620px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+    .mini {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fcfcfd;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .mini strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    button {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .btn-primary:hover { background: var(--accent-2); }
+    .btn-secondary {
+      background: #fff;
+      color: var(--text);
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .panel {
+      padding: 22px;
+      margin-top: 18px;
+    }
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .progress {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: #e4e7ec;
+      overflow: hidden;
+    }
+    .progress > div {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #0f766e 0%, #14b8a6 100%);
+      transition: width 0.25s ease;
+    }
+    .question-title {
+      margin: 16px 0 8px;
+      font-size: clamp(22px, 4.6vw, 30px);
+      line-height: 1.3;
+    }
+    .question-tip {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+    .option {
+      text-align: left;
+      width: 100%;
+      padding: 16px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+    .option:hover {
+      transform: translateY(-1px);
+      border-color: #98a2b3;
+      box-shadow: 0 10px 24px rgba(16,24,40,0.06);
+    }
+    .status {
+      margin-top: 14px;
+      font-size: 14px;
+      color: var(--danger);
+      min-height: 20px;
+    }
+    .result-head {
+      padding: 28px 28px 10px;
+      border-bottom: 1px solid rgba(16,24,40,0.06);
+      background: radial-gradient(circle at top right, rgba(15,118,110,0.14), transparent 28%), #fff;
+    }
+    .code {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .result-title {
+      margin: 12px 0 6px;
+      font-size: clamp(30px, 6vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+    .result-summary {
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.75;
+      max-width: 620px;
+    }
+    .result-body {
+      padding: 24px 28px 28px;
+      display: grid;
+      gap: 14px;
+    }
+    .block {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fcfcfd;
+    }
+    .block h3 {
+      margin: 0 0 10px;
+      font-size: 15px;
+    }
+    .block p, .block li {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+    ul { margin: 0; padding-left: 1.2em; }
+    .footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .hidden { display: none !important; }
+    .muted-note {
+      font-size: 12px;
+      color: #98a2b3;
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .pill {
+      padding: 8px 10px;
+      background: rgba(15,118,110,0.08);
+      color: var(--accent-2);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    @media (max-width: 640px) {
+      .hero, .panel, .result-head, .result-body { padding-left: 18px; padding-right: 18px; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section id="screen-home" class="card">
+      <div class="hero">
+        <div class="badge">SHITBTI® 2026 · 国际排便行为研究院</div>
+        <h1>测测你的拉屎人格</h1>
+        <div class="sub">
+          基于四维肠道人格模型：<strong>S</strong> 节律感、<strong>H</strong> 环境依赖、<strong>I</strong> 仪式沉浸、<strong>T</strong> 肠道稳定性，
+          通过 12 道题，测出你属于哪一种如厕人格。
+        </div>
+        <div class="grid">
+          <div class="mini"><strong>S 轴</strong>定时派 vs 临门一脚派</div>
+          <div class="mini"><strong>H 轴</strong>主场派 vs 四海为家派</div>
+          <div class="mini"><strong>I 轴</strong>仪式派 vs 速决派</div>
+          <div class="mini"><strong>T 轴</strong>稳定派 vs 易炸派</div>
+        </div>
+        <div class="actions">
+          <button class="btn-primary" id="start-btn">开始测试</button>
+          <button class="btn-secondary" id="preview-results-btn">先看看有哪些人格</button>
+        </div>
+        <div class="muted-note">注：本测试仅供娱乐，不构成任何医疗建议，也不替代你和马桶之间复杂而深刻的关系。</div>
+      </div>
+    </section>
+
+    <section id="screen-quiz" class="card hidden" aria-live="polite">
+      <div class="panel">
+        <div class="progress-row">
+          <span id="progress-label">第 1 / 12 题</span>
+          <span id="scan-text">肠道扫描启动中……</span>
+        </div>
+        <div class="progress"><div id="progress-bar"></div></div>
+        <h2 class="question-title" id="question-title"></h2>
+        <div class="question-tip">请选择最像你的那个选项。没有标准答案，只有真实的人类排便生态。</div>
+        <div class="options" id="options"></div>
+        <div class="status" id="status"></div>
+      </div>
+    </section>
+
+    <section id="screen-result" class="card hidden">
+      <div class="result-head">
+        <div class="code" id="result-code"></div>
+        <h2 class="result-title" id="result-name"></h2>
+        <div class="result-summary" id="result-summary"></div>
+        <div class="pill-row" id="traits"></div>
+      </div>
+      <div class="result-body">
+        <div class="block">
+          <h3>人格解析</h3>
+          <p id="result-description"></p>
+        </div>
+        <div class="block">
+          <h3>朋友眼中的你</h3>
+          <p id="result-friend"></p>
+        </div>
+        <div class="block">
+          <h3>风险提示</h3>
+          <ul id="result-risks"></ul>
+        </div>
+        <div class="block">
+          <h3>你的行为标签</h3>
+          <p id="result-tags"></p>
+        </div>
+        <div class="footer-actions">
+          <button class="btn-primary" id="restart-btn">再测一次</button>
+          <button class="btn-secondary" id="copy-btn">复制结果文案</button>
+        </div>
+        <div class="muted-note">下一步你可以把这个单文件直接发到 GitHub Pages、Netlify 或 Cloudflare Pages，上线就是一个可访问的 H5。</div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        title: '你的排便节律更像哪一种？',
+        options: [
+          { text: '每天大概固定在同一个时间段', score: { S: 2 } },
+          { text: '有一点规律，但不至于像打卡', score: { S: 1 } },
+          { text: '看吃了什么和当天状态', score: { t: 1, s: 1 } },
+          { text: '完全随机，来了就是最后通牒', score: { s: 2 } }
+        ]
+      },
+      {
+        title: '最常见的触发时刻是？',
+        options: [
+          { text: '起床后不久，身体像自动排程', score: { S: 2 } },
+          { text: '饭后 / 咖啡后 / 奶茶后', score: { t: 1, s: 1 } },
+          { text: '下午某个神秘时间点', score: { S: 1 } },
+          { text: '没有固定触发，纯看命', score: { s: 2 } }
+        ]
+      },
+      {
+        title: '当便意出现时，你通常会？',
+        options: [
+          { text: '我早有预感，会提前布局', score: { S: 2, I: 1 } },
+          { text: '感觉差不多了，顺路去处理', score: { S: 1, i: 1 } },
+          { text: '先忍一会儿，能拖就拖', score: { H: 1, s: 1 } },
+          { text: '屎到临头，立刻冲刺', score: { s: 2, t: 1 } }
+        ]
+      },
+      {
+        title: '你的理想战场是？',
+        options: [
+          { text: '只信任自己家的马桶', score: { H: 2 } },
+          { text: '公司也行，只要熟悉', score: { H: 1 } },
+          { text: '高配商场 / 酒店公厕也能接受', score: { h: 1 } },
+          { text: '只要够干净，哪里都能发挥', score: { h: 2 } }
+        ]
+      },
+      {
+        title: '你坐下之后通常会？',
+        options: [
+          { text: '立刻办正事，速战速决', score: { i: 2 } },
+          { text: '先刷会儿手机，状态要铺垫', score: { I: 2 } },
+          { text: '边拉边沉思，顺便看点东西', score: { I: 2 } },
+          { text: '拉完还会坐一会儿冷静一下', score: { I: 1, H: 1 } }
+        ]
+      },
+      {
+        title: '单次平均时长更接近？',
+        options: [
+          { text: '1～3 分钟，我是效率机器', score: { i: 2 } },
+          { text: '3～8 分钟，合理、稳定、克制', score: { i: 1, T: 1 } },
+          { text: '8～15 分钟，需要完整体验', score: { I: 2 } },
+          { text: '15 分钟以上，厕所是我的思考舱', score: { I: 2, H: 1 } }
+        ]
+      },
+      {
+        title: '以下哪句话最像你？',
+        options: [
+          { text: '环境不对，我宁愿先憋着', score: { H: 2 } },
+          { text: '流程要完整，不能太仓促', score: { I: 2 } },
+          { text: '有感觉就去，没有就算了', score: { h: 1, i: 1 } },
+          { text: '我的肠道经常临场发挥', score: { t: 2 } }
+        ]
+      },
+      {
+        title: '你对“欣赏作品”的态度是？',
+        options: [
+          { text: '真男人从不回头看爆炸', score: { i: 2 } },
+          { text: '偶尔确认一下健康状态', score: { T: 1, I: 1 } },
+          { text: '必看，这是成果验收', score: { I: 2 } },
+          { text: '我会综合评估形状、完整度与气势', score: { I: 2, T: 1 } }
+        ]
+      },
+      {
+        title: '你最容易被什么触发？',
+        options: [
+          { text: '基本不被触发，主打稳定输出', score: { T: 2 } },
+          { text: '咖啡、奶茶、冰的东西', score: { t: 2 } },
+          { text: '辣的、火锅、重油重盐', score: { t: 2 } },
+          { text: '情绪波动、紧张、赶时间', score: { t: 2, s: 1 } }
+        ]
+      },
+      {
+        title: '你的肠道状态更像？',
+        options: [
+          { text: '常年稳定，成型顺滑', score: { T: 2 } },
+          { text: '偶尔便秘，但整体可控', score: { T: 1, H: 1 } },
+          { text: '偶尔蹿稀，存在爆发风险', score: { t: 2 } },
+          { text: '便秘与蹿稀反复横跳', score: { t: 2, s: 1 } }
+        ]
+      },
+      {
+        title: '外出差旅时，你通常会？',
+        options: [
+          { text: '依然照常发挥，主打适应力', score: { h: 2, T: 1 } },
+          { text: '能拉，但必须挑厕所', score: { H: 1 } },
+          { text: '节律会乱掉，最好还是回家', score: { H: 2, S: 1 } },
+          { text: '状态很难预测，看当天肠道心情', score: { t: 1, s: 1 } }
+        ]
+      },
+      {
+        title: '如果商场突然强烈来意，但厕所排队，你会？',
+        options: [
+          { text: '死守阵地，排也得排到', score: { H: 1, I: 1 } },
+          { text: '迅速寻找其他楼层或备用点位', score: { h: 2 } },
+          { text: '先忍一忍，赌自己扛得住', score: { H: 1, s: 1 } },
+          { text: '已经来不及了，马上进入一级响应', score: { s: 2, t: 2 } }
+        ]
+      }
+    ];
+
+    const results = {
+      SHIT: {
+        name: '天选晨拉官',
+        summary: '你的人生也许会失控，但你的排便时间不会。',
+        description: '你节律稳定、偏爱熟悉环境、流程完整、整体状态也比较健康。你不是在上厕所，你是在完成每日秩序维护。',
+        friend: '朋友觉得你神秘消失的时间点比闹钟还准，同事怀疑你每天 9:40 有一个不对外公开的战略会议。',
+        risks: ['太依赖固定节律，出差时容易状态失常。', '一旦错过最佳窗口，可能会有轻微情绪波动。'],
+        tags: '规律作息 / 主场优势 / 仪式完整 / 稳定输出'
+      },
+      SHIt: {
+        name: '尊贵洁癖王',
+        summary: '不是不能拉，只是环境必须配得上你。',
+        description: '你对环境要求很高，节律相对稳定，但肠道偶有波动。你信任熟悉的马桶、熟悉的纸、熟悉的空气。',
+        friend: '朋友评价你不是在找厕所，而是在筛选合作方。',
+        risks: ['过度依赖主场，外出可能憋出战略纵深。', '焦虑时容易加剧便秘或状态混乱。'],
+        tags: '环境要求高 / 审美如厕 / 熟悉空间依赖 / 精细化管理'
+      },
+      SHiT: {
+        name: '静默冲锋手',
+        summary: '你把排便做成了高效率执行，不拖泥带水。',
+        description: '你规律、稳、快，少废话，少铺垫，进入状态就直奔主题。你的人格魅力在于：不内耗、不恋战。',
+        friend: '朋友觉得你上厕所像去签收快递，进去、完成、撤离，一气呵成。',
+        risks: ['效率过高时，可能忽略了状态观察。', '偶尔会因为太赶而降低体验感。'],
+        tags: '效率优先 / 低停留时长 / 规律执行 / 稳定成型'
+      },
+      SHit: {
+        name: '主场突击队',
+        summary: '你通常很稳，但偶尔会被肠道打一个措手不及。',
+        description: '你偏爱熟悉环境，平时节律尚可，一旦遇到饮食刺激或临场波动，就容易从稳健模式切到战备模式。',
+        friend: '朋友说你平时像公务员，发作时像战地记者。',
+        risks: ['重口饮食下风险放大。', '对自己“平时很稳”的判断可能过于自信。'],
+        tags: '主场作战 / 平时克制 / 临场爆发 / 风险可控'
+      },
+      sHIT: {
+        name: '马桶哲学家',
+        summary: '你不只是去排便，你是在厕所里与宇宙对话。',
+        description: '你偏临场触发，但对环境挑剔、仪式感强、整体状态尚稳。手机、沉思、发呆、回看作品，这些都是你人格的一部分。',
+        friend: '朋友评价你“说去厕所五分钟，结果半小时后才从思想实验中归来”。',
+        risks: ['停留时间过长，容易引发腿麻或老板关注。', '手机绑定强，一旦没电会产生灵魂失重。'],
+        tags: '沉浸体验 / 手机伴侣 / 主场沉思 / 高仪式感'
+      },
+      sHIt: {
+        name: '末日喷射机',
+        summary: '平时安静如鸡，出手就是最后通牒。',
+        description: '你触发随机、偏主场依赖、流程不长，但肠道波动感很强。你最大的特点不是勤，而是急。',
+        friend: '朋友说你的人生没有预告片，只有突发新闻。',
+        risks: ['外出状态下容易进入高压响应。', '饮食踩雷时波动会被放大。'],
+        tags: '随机触发 / 警报型选手 / 紧急响应 / 肠道多变'
+      },
+      sHiT: {
+        name: '公厕游击队',
+        summary: '你的适应能力比很多人的生活能力都强。',
+        description: '你节律不算固定，但执行效率高、环境适应力强、肠道也比较稳定。你不挑战场，只挑时机。',
+        friend: '朋友觉得你像一个经验丰富的野外生存专家，任何地点都能迅速完成任务。',
+        risks: ['过度自信时可能忽略卫生条件。', '因为太能适应，容易低估长期习惯的影响。'],
+        tags: '适应力强 / 外场发挥 / 速决型 / 状态稳定'
+      },
+      sHit: {
+        name: '肠道天气系统',
+        summary: '今天晴天，明天雷暴，你自己都未必预测得了。',
+        description: '你随机、环境适应度中等偏高、偏速决，但肠道状态起伏明显。你是整个测试里最有戏剧张力的一型。',
+        friend: '朋友评价你“看起来风平浪静，其实体内正在形成强对流”。',
+        risks: ['饮食、作息、情绪都会放大波动。', '需要比别人更早识别自己的触发因素。'],
+        tags: '高波动 / 临场发挥 / 速决撤离 / 难以预测'
+      }
+    };
+
+    const screens = {
+      home: document.getElementById('screen-home'),
+      quiz: document.getElementById('screen-quiz'),
+      result: document.getElementById('screen-result')
+    };
+
+    const el = {
+      startBtn: document.getElementById('start-btn'),
+      previewResultsBtn: document.getElementById('preview-results-btn'),
+      progressLabel: document.getElementById('progress-label'),
+      progressBar: document.getElementById('progress-bar'),
+      scanText: document.getElementById('scan-text'),
+      questionTitle: document.getElementById('question-title'),
+      options: document.getElementById('options'),
+      status: document.getElementById('status'),
+      resultCode: document.getElementById('result-code'),
+      resultName: document.getElementById('result-name'),
+      resultSummary: document.getElementById('result-summary'),
+      resultDescription: document.getElementById('result-description'),
+      resultFriend: document.getElementById('result-friend'),
+      resultRisks: document.getElementById('result-risks'),
+      resultTags: document.getElementById('result-tags'),
+      traits: document.getElementById('traits'),
+      restartBtn: document.getElementById('restart-btn'),
+      copyBtn: document.getElementById('copy-btn')
+    };
+
+    const scans = [
+      '肠道扫描启动中……',
+      '便意信号正在建模……',
+      '如厕人格轮廓逐渐清晰……',
+      '正在比对全球排便样本……',
+      '请勿在分析完成前擅自离开工位……'
+    ];
+
+    let currentIndex = 0;
+    let scores = resetScores();
+    let currentResultText = '';
+
+    function resetScores() {
+      return { S: 0, s: 0, H: 0, h: 0, I: 0, i: 0, T: 0, t: 0 };
+    }
+
+    function showScreen(name) {
+      Object.values(screens).forEach(screen => screen.classList.add('hidden'));
+      screens[name].classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startQuiz() {
+      currentIndex = 0;
+      scores = resetScores();
+      el.status.textContent = '';
+      showScreen('quiz');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      const progress = ((currentIndex + 1) / questions.length) * 100;
+      el.progressLabel.textContent = `第 ${currentIndex + 1} / ${questions.length} 题`;
+      el.progressBar.style.width = `${progress}%`;
+      el.scanText.textContent = scans[Math.min(Math.floor(currentIndex / 3), scans.length - 1)];
+      el.questionTitle.textContent = q.title;
+      el.options.innerHTML = '';
+
+      q.options.forEach((opt) => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.textContent = opt.text;
+        btn.addEventListener('click', () => {
+          Object.entries(opt.score).forEach(([k, v]) => { scores[k] += v; });
+          currentIndex += 1;
+          if (currentIndex < questions.length) {
+            renderQuestion();
+          } else {
+            renderResult();
+          }
+        });
+        el.options.appendChild(btn);
+      });
+    }
+
+    function buildCode() {
+      const S1 = scores.S >= scores.s ? 'S' : 's';
+      const H1 = scores.H >= scores.h ? 'H' : 'h';
+      const I1 = scores.I >= scores.i ? 'I' : 'i';
+      const T1 = scores.T >= scores.t ? 'T' : 't';
+      return `${S1}${H1}${I1}${T1}`;
+    }
+
+    function getTraits(code) {
+      const map = {
+        S: '定时派', s: '临门一脚派',
+        H: '主场派', h: '四海为家派',
+        I: '仪式派', i: '速决派',
+        T: '稳定派', t: '易炸派'
+      };
+      return code.split('').map(c => map[c]);
+    }
+
+    function renderResult() {
+      const code = buildCode();
+      const data = results[code] || results.sHit;
+      showScreen('result');
+      el.resultCode.textContent = code;
+      el.resultName.textContent = data.name;
+      el.resultSummary.textContent = data.summary;
+      el.resultDescription.textContent = data.description;
+      el.resultFriend.textContent = data.friend;
+      el.resultTags.textContent = data.tags;
+      el.resultRisks.innerHTML = '';
+      data.risks.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        el.resultRisks.appendChild(li);
+      });
+      el.traits.innerHTML = '';
+      getTraits(code).forEach(trait => {
+        const span = document.createElement('span');
+        span.className = 'pill';
+        span.textContent = trait;
+        el.traits.appendChild(span);
+      });
+      currentResultText = `我测出来的 SHITBTI 拉屎人格是：${code}｜${data.name}。${data.summary} 你也来测测。`;
+    }
+
+    async function copyResult() {
+      if (!currentResultText) return;
+      try {
+        await navigator.clipboard.writeText(currentResultText);
+        el.copyBtn.textContent = '已复制';
+        setTimeout(() => el.copyBtn.textContent = '复制结果文案', 1400);
+      } catch (e) {
+        alert('复制失败了，你可以手动复制结果页内容。');
+      }
+    }
+
+    function previewResults() {
+      scores = { S: 2, s: 0, H: 1, h: 0, I: 2, i: 0, T: 2, t: 0 };
+      renderResult();
+    }
+
+    el.startBtn.addEventListener('click', startQuiz);
+    el.previewResultsBtn.addEventListener('click', previewResults);
+    el.restartBtn.addEventListener('click', () => {
+      el.copyBtn.textContent = '复制结果文案';
+      startQuiz();
+    });
+    el.copyBtn.addEventListener('click', copyResult);
+  </script>
+</body>
+</html>
