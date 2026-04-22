@@ -232,11 +232,89 @@ button {
   gap: 14px;
 }
 
+.result-spotlight {
+  padding: 18px;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(255,255,255,0.96));
+}
+
+.spotlight-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.spotlight-kicker,
+.spotlight-seed {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.spotlight-kicker {
+  background: rgba(15, 118, 110, 0.12);
+  color: var(--accent-2);
+}
+
+.spotlight-seed {
+  background: rgba(29, 41, 57, 0.06);
+  color: var(--muted);
+}
+
+.spotlight-quote {
+  margin-top: 14px;
+  font-size: 18px;
+  line-height: 1.7;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.result-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.meta-card {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(16, 24, 40, 0.06);
+  background: rgba(255,255,255,0.82);
+}
+
+.meta-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.meta-value {
+  display: block;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
 .block {
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 16px;
   background: #fcfcfd;
+}
+
+.block-highlight {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbfb 100%);
+  border-color: rgba(15, 118, 110, 0.18);
 }
 
 .block h3 {
@@ -267,11 +345,13 @@ button {
 
 .share-preview {
   margin-top: 12px;
-  padding: 12px;
+  padding: 14px;
   border: 1px dashed var(--line);
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  background: #fff;
 }
 
 ul { margin: 0; padding-left: 1.2em; }
@@ -309,7 +389,12 @@ ul { margin: 0; padding-left: 1.2em; }
     padding-right: 18px;
   }
 
-  .grid {
+  .grid,
+  .result-meta-grid {
     grid-template-columns: 1fr;
+  }
+
+  .spotlight-quote {
+    font-size: 17px;
   }
 }
