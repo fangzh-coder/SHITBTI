@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHITBTI® 拉屎人格测试</title>
+  <meta name="description" content="一个假正经研究机构风的中文趣味人格测试。12 题测出你的 SHITBTI 拉屎人格类型。" />
+  <meta name="keywords" content="SHITBTI,拉屎人格测试,趣味测试,H5" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta property="og:title" content="SHITBTI® 拉屎人格测试" />
+  <meta property="og:description" content="基于四维肠道人格模型，3 分钟测出你的如厕人格。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/img/og-placeholder.svg" />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <section id="screen-home" class="card">
+      <div class="hero">
+        <div class="badge">SHITBTI® 2026 · 国际排便行为研究院</div>
+        <h1>测测你的拉屎人格</h1>
+        <p class="sub">
+          基于四维肠道人格模型：<strong>S</strong> 节律感、<strong>H</strong> 环境依赖、<strong>I</strong> 仪式沉浸、<strong>T</strong> 肠道稳定性，
+          通过 12 道题，测出你属于哪一种如厕人格。
+        </p>
+        <div class="grid">
+          <div class="mini"><strong>S 轴</strong>定时派 vs 临门一脚派</div>
+          <div class="mini"><strong>H 轴</strong>主场派 vs 四海为家派</div>
+          <div class="mini"><strong>I 轴</strong>仪式派 vs 速决派</div>
+          <div class="mini"><strong>T 轴</strong>稳定派 vs 易炸派</div>
+        </div>
+        <div class="actions">
+          <button class="btn-primary" id="start-btn">开始测试</button>
+          <button class="btn-secondary" id="preview-results-btn">先看看有哪些人格</button>
+        </div>
+        <p class="muted-note">本测试仅供娱乐，不构成任何医疗建议，也不替代你和马桶之间复杂而深刻的关系。</p>
+      </div>
+    </section>
+
+    <section id="screen-quiz" class="card hidden" aria-live="polite">
+      <div class="panel">
+        <div class="progress-row">
+          <span id="progress-label">第 1 / 12 题</span>
+          <span id="scan-text">肠道扫描启动中……</span>
+        </div>
+        <div class="progress"><div id="progress-bar"></div></div>
+        <h2 class="question-title" id="question-title"></h2>
+        <p class="question-tip">请选择最像你的那个选项。没有标准答案，只有真实的人类排便生态。</p>
+        <div class="options" id="options"></div>
+        <div class="status" id="status"></div>
+      </div>
+    </section>
+
+    <section id="screen-result" class="card hidden">
+      <div class="result-head" id="result-card-source">
+        <div class="code" id="result-code"></div>
+        <h2 class="result-title" id="result-name"></h2>
+        <p class="result-summary" id="result-summary"></p>
+        <div class="pill-row" id="traits"></div>
+      </div>
+      <div class="result-body">
+        <div class="block">
+          <h3>人格解析</h3>
+          <p id="result-description"></p>
+        </div>
+        <div class="block">
+          <h3>朋友眼中的你</h3>
+          <p id="result-friend"></p>
+        </div>
+        <div class="block">
+          <h3>风险提示</h3>
+          <ul id="result-risks"></ul>
+        </div>
+        <div class="block">
+          <h3>你的行为标签</h3>
+          <p id="result-tags"></p>
+        </div>
+
+        <div class="block">
+          <h3>分享文案版本（A/B）</h3>
+          <div class="variant-row" role="group" aria-label="分享文案版本切换">
+            <button class="variant-btn is-active" id="variant-a-btn" data-variant="A">版本 A（直接风）</button>
+            <button class="variant-btn" id="variant-b-btn" data-variant="B">版本 B（玩梗风）</button>
+          </div>
+          <p class="share-preview" id="share-preview"></p>
+        </div>
+
+        <div class="footer-actions">
+          <button class="btn-primary" id="restart-btn">再测一次</button>
+          <button class="btn-secondary" id="copy-btn">复制结果文案</button>
+          <button class="btn-secondary" id="share-image-btn">生成分享图</button>
+        </div>
+        <p class="muted-note">本项目不收集用户隐私数据；分享图仅在你的浏览器本地生成并下载。</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/js/questions.js"></script>
+  <script src="assets/js/results.js"></script>
+  <script src="assets/js/utils.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
